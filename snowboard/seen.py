@@ -437,8 +437,17 @@ class Seen:
 
     def cleanDB(self):
         '''Cleans the database of possible errors.'''
-        self.cleanHosts()
-        self.cleanNicks()
+        done = False
+        x = 1
+
+        while not done:
+            debug.message("Starting database check, pass number " + str(x) + ".")
+            hostsCheck = self.cleanHosts()
+            nicksCheck = self.cleanNicks()
+            x += 1
+            done = (hostsCheck or nicksCheck) or x > 5
+            if x > 5:
+                debug.error("Database has been checked 5 times and errors are still being detected!  Action required!")
 
     def cleanHosts(self):
         '''Cleans the hosts table of possible errors.'''
@@ -488,6 +497,11 @@ class Seen:
             with connection as cursor:
                 cursor.executemany("UPDATE hosts SET hosts = :hosts WHERE nick = :nick", updates)
 
+        if (not bad_nicks == []) or (not updates == []):
+            return False  # I'm not done!
+        else:
+            return True  # Ok, passed.
+
     def cleanNicks(self):
         '''Cleans the nicks table of possible errors.'''
         with contextlib.closing(sqlite3.connect(self.__dbname)) as connection:
@@ -532,3 +546,8 @@ class Seen:
             # Finally, do any updates to nicks that need doing.
             with connection as cursor:
                 cursor.executemany("UPDATE nicks SET nicks = :nicks WHERE host = :host", updates)
+
+            if (not bad_hosts == []) or (not updates == []):
+                return False  # I'm not done!
+            else:
+                return False  # Ok, pass.
