@@ -208,6 +208,8 @@ class Seen:
             for item in result:
                 if "@" not in item:
                     debug.error("There is a hostname in the database for '" + nick + "' that is not formatted correctly.")
+        else:
+            debug.error("Database error, '" + nick + "' was not found as a key in the 'hosts' database.")
         return result
 
     def loadNickAction(self, nick):
@@ -230,6 +232,8 @@ class Seen:
             if ' ' in result:
                 debug.error("Spaces detected in the nicks database for '" + host + "'.")
             result = result.split(",")
+        else:
+            debug.error("Database error, '" + host + "' was not found as a key in the 'nicks' database.")
         return result
 
     def save(self, nick, host, act):
@@ -446,6 +450,8 @@ class Seen:
                     nick, hosts = row
                     if nick.startswith(":") or " " in nick:
                         bad_nicks.append({ "nick" : nick })
+                        debug.error(
+                            "Database error found in 'hosts' database, malformed nick key, '" + nick + "', removing.")
                     else:
                         hosts = hosts.split(",")
                         update = False
@@ -461,8 +467,19 @@ class Seen:
                         # Remove hosts without "@".
                         update = update or any(map(lambda s: "@" not in s, hosts))
                         hosts = [ n for n in hosts if "@" in n ]
+                        # Remove hosts from the list that are not in both databases.
+                        for host in hosts:
+                            data = self.loadNicks(host)
+                            if data is None or data == []:
+                                update = True
+                                hosts.remove(host)
+
                         if update:
+                            debug.error(
+                                "Database error found in 'hosts' database, bad data found in '" + nick + "', attempting to correct.")
                             updates.append({"nick": nick, "hosts": ",".join(hosts)})
+                    if hosts == []:
+                        bad_nicks.append({"nick": nick})
             # Now, delete any bad hosts and commit that transaction before
             # doing anything else.
             with connection as cursor:
@@ -480,6 +497,8 @@ class Seen:
                 for row in cursor.execute("SELECT host, nicks FROM nicks"):
                     host, nicks = row
                     if "@" not in host or " " in host:
+                        debug.error(
+                            "Database error found in 'nicks' database, malformed nick key, '" + host + "', removing.")
                         bad_hosts.append({ "host" : host })
                     else:
                         nicks = nicks.split(",")
@@ -493,9 +512,19 @@ class Seen:
                         # Remove preceding ":".
                         update = update or any(map(lambda s: s.startswith(":"), nicks))
                         nicks = list(map(lambda s: s[1:] if s.startswith(":") else s, nicks))
+                        for nick in nicks:
+                            data = self.loadHosts(nick)
+                            if data is None or data == []:
+                                update = True
+                                nicks.remove(nick)
+
                         # Check if an update is necessary.
                         if update:
                             updates.append({"host": host, "nicks": ",".join(nicks)})
+                            debug.error(
+                                "Database error found in 'nicks' database, bad data found in '" + host + "', attempting to correct.")
+                    if nicks == []:
+                        bad_hosts.append({"host": host})
             # Now, delete any bad hosts and commit that transaction before
             # doing anything else.
             with connection as cursor:
