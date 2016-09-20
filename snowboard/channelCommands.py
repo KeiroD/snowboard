@@ -559,7 +559,7 @@ def __showWeather(ircMsg):
         debug.message(url)
         try:
             response = urllib.request.urlopen(url)
-        except urllib.error.HTTPError as err:
+        except (urllib.error.HTTPError, urllib.error.URLError) as err:
             response = err
 
         if response.code == 200:
