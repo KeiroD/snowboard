@@ -297,7 +297,7 @@ class Seen:
             # First load nicks.
             nicks = None
             with connection as cursor:
-                for row in cursor.execute(_SQL_SELECT_NICKS_FROM_NICKS):
+                for row in cursor.execute(_SQL_SELECT_NICKS_FROM_NICKS_BY_HOST, {"host": host.lower()}):
                     nicks = row[0].split(",")
 
             if not nicks:
