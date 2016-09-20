@@ -70,23 +70,23 @@ def channelTriggers(ircMsg):
     '''
     commands = []
 
-    if ircMsg.dataList[0] == "^opme":
+    if ircMsg.dataList[0].lower() == "^opme":
         commands = __opmeCommand(ircMsg)
-    elif ircMsg.dataList[0] == "^reset":
+    elif ircMsg.dataList[0].lower() == "^reset":
         commands = __resetTopic(ircMsg)
-    elif ircMsg.dataList[0] == "^desc":
+    elif ircMsg.dataList[0].lower() == "^desc":
         commands = __showDesc(ircMsg)
-    elif ircMsg.dataList[0] == "^rules":
+    elif ircMsg.dataList[0].lower() == "^rules":
         commands = __showRules(ircMsg)
-    elif ircMsg.dataList[0] == "^chans":
+    elif ircMsg.dataList[0].lower() == "^chans":
         commands = __showChans(ircMsg)
-    elif ircMsg.dataList[0] == "^w":
+    elif ircMsg.dataList[0].lower() == "^w":
         commands = __showWeather(ircMsg)
-    elif ircMsg.dataList[0] == "^button":
+    elif ircMsg.dataList[0].lower() == "^button":
         commands = __buttonPress(ircMsg)
-    elif ircMsg.dataList[0] == "^help":
+    elif ircMsg.dataList[0].lower() == "^help":
         commands = __chanHelp(ircMsg)
-    elif ircMsg.dataList[0] == "^announcement":
+    elif ircMsg.dataList[0].lower() == "^announcement":
         commands = __announce(ircMsg)
 
     return commands
