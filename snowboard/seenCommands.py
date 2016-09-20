@@ -110,12 +110,11 @@ def rawTriggers(net, raw):
                     if not message == "":
                         act += " saying '" + message + "'"
                 seen.save(nick, host, act)
-            if nick == "" and host == "":
-                if rawList[1] == "352":
-                    host = rawList[4] + "@" + rawList[5]
-                    nick = rawList[7]
-                    act = "online"
-                    seen.save(nick, host, act)
+            elif rawList[1] == "352":
+                host = rawList[4] + "@" + rawList[5]
+                nick = rawList[7]
+                act = "online"
+                seen.save(nick, host, act)
     return
 
 def __removeItem(list, text):
