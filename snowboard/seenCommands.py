@@ -43,6 +43,8 @@ def msgTriggers(ircMsg):
 
     if ircMsg.dataList[0].lower() == "seenremove" and ircMsg.dataList[1].lower() == "nick":
         commands += __removeNick(ircMsg)
+    if ircMsg.dataList[0].lower() == "seencheck":
+        commands += __seenCheck(ircMsg)
 
     return commands
 
@@ -202,6 +204,37 @@ def __removeNick(ircMsg):
 
     return commands
 
+
+def __seenCheck(ircMsg):
+    '''
+    Instructs the bot to remove a nick from the database, must be at least an
+    admin to perform this command.
+
+    :param ircMsg:
+    :return:
+    '''
+
+    commands = []
+    thisCmd = "seenremove"
+
+    nick = ircMsg.net.findNick(ircMsg.src)
+
+    seen = Seen(ircMsg.net.name)
+
+    if len(ircMsg.dataList) == 1:
+        if nick.authed:
+            if nick.user.checkApproved("admin"):
+                commands.append(
+                    "PRIVMSG " + ircMsg.src + " :Running the database check routine now.  See server debug and error logs for results.")
+                seen.cleanDB()
+            else:
+                commands += basicMessages.denyMessage(ircMsg.src, thisCmd)
+        else:
+            commands += basicMessages.noAuth(ircMsg.src, thisCmd)
+    else:
+        commands += basicMessages.paramFail(ircMsg.src, thisCmd)
+
+    return commands
 
 def __traceNick(ircMsg):
     '''

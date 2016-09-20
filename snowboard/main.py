@@ -240,7 +240,6 @@ def main(argv):
             sentUser = False
         else:
             debug.error("Failed to connect.")
-            return 1
 
         lastTimer = time.time()
 
@@ -295,8 +294,6 @@ def main(argv):
             time.sleep(idleTime)
 
         if (not (net.online() and net.ready())) and net.reconnect:
-
             debug.message("Disconnected from the server.  Attempting to reconnect in " + str(int(net.config.delay)) + " seconds...")
             time.sleep(net.config.delay)
-
     return result
