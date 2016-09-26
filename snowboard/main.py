@@ -25,6 +25,8 @@ See https://github.com/dwhagar/snowboard/wiki/Class-Docs for documentation.
 # The amount of time the loop with sleep before going on to the next loop.
 idleTime = 1 / 8
 
+noMessageCommands = ["JOIN", "PART", "QUIT"]
+
 import argparse
 import time
 from os.path import isfile
@@ -77,7 +79,6 @@ def __process_responses(net, raw):
     object.
     '''
     response = raw.split()
-    cmds = []
 
     # Process a proper authentication.
     if response[1] == "001":
@@ -161,7 +162,7 @@ def __get_commands(raw, net):
     ircMsg = ircMessage.ircMessage(net, srcNick, srcHost, dest, cmd, message)
 
     # Make sure there is still a message there to parse.
-    if len(ircMsg.dataList) < 1:
+    if (len(ircMsg.dataList) < 1) and (not (ircMsg.command in noMessageCommands)):
         return commands
 
     # Make sure that when we get a message from someone on IRC, we create
