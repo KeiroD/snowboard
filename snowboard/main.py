@@ -160,6 +160,10 @@ def __get_commands(raw, net):
     # Store all the data in an way that is easy to pass along.
     ircMsg = ircMessage.ircMessage(net, srcNick, srcHost, dest, cmd, message)
 
+    # Make sure there is still a message there to parse.
+    if len(ircMsg.dataList) < 1:
+        return commands
+
     # Make sure that when we get a message from someone on IRC, we create
     # a Nick object in the master list for them and fill in what we can.
     # Some notices also come in from the server, don't process a message for
