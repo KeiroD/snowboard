@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # This file is part of snowboard.
 # 
 # snowboard is free software: you can redistribute it and/or modify
@@ -16,12 +14,11 @@
 # along with snowboard.  If not, see <http://www.gnu.org/licenses/>.
 
 '''
-Loads and executes an instance of Snowboard.
-
-See https://github.com/dwhagar/snowboard/ for more information.
+A place to store privleges for a channel.
 '''
 
-import sys
-import snowboard
-
-sys.exit(snowboard.main(sys.argv[1:]))
+class ChannelPriv:
+    '''Stores users privleges associated with a channel.'''
+    def __init__(self, isop = False, isvoice = False):
+        self.op = isop
+        self.voice = isvoice

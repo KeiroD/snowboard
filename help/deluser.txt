@@ -1,0 +1,2 @@
+Usage:  deluser username
+Completely removes a user from the dabase, across all channels.

@@ -1,0 +1,2 @@
+Usage:  adduser [channel] username hostmask[,hostmask] password level [approved[,approved]][:denied[,denied]]
+Adds a new user profile, either globally, or for a specific channel.

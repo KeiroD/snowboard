@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # This file is part of snowboard.
 # 
 # snowboard is free software: you can redistribute it and/or modify
@@ -16,12 +14,17 @@
 # along with snowboard.  If not, see <http://www.gnu.org/licenses/>.
 
 '''
-Loads and executes an instance of Snowboard.
+Defines a class to store data on an IRC message from the server.
 
-See https://github.com/dwhagar/snowboard/ for more information.
+See https://github.com/dwhagar/snowboard/wiki/Class-Docs for documentation.
 '''
 
-import sys
-import snowboard
-
-sys.exit(snowboard.main(sys.argv[1:]))
+class ircMessage:
+    def __init__(self, net, src, srcHost, dest, command, data):
+        self.net = net
+        self.src = src
+        self.srcHost = srcHost
+        self.dest = dest
+        self.command = command
+        self.data = data
+        self.dataList = data.split()

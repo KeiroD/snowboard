@@ -1,27 +1,22 @@
-#!/usr/bin/env python3
-
 # This file is part of snowboard.
-# 
+#
 # snowboard is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # snowboard is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with snowboard.  If not, see <http://www.gnu.org/licenses/>.
 
 '''
-Loads and executes an instance of Snowboard.
-
-See https://github.com/dwhagar/snowboard/ for more information.
+Defines some constants for dealing with CTCP messages and replies.
 '''
 
-import sys
-import snowboard
-
-sys.exit(snowboard.main(sys.argv[1:]))
+char = '\x01'
+queries = ["ACTION", "VERSION", "SOURCE", "PING", "TIME", "USERINFO", "CLIENTINFO"]
+replies = ["VERSIONREPLY", "SOURCEREPLY", "PINGREPLY", "TIMEREPLY", "USERREPLY", "CLIENTREPLY"]
