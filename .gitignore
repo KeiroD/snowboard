@@ -1,2 +1,8 @@
-
-*.pyc
+__pycache__/
+*.py[cod]
+*.db
+.idea/
+logs/
+*.ini
+*.err
+*.log

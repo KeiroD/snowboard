@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # This file is part of snowboard.
 # 
 # snowboard is free software: you can redistribute it and/or modify
@@ -15,13 +13,17 @@
 # You should have received a copy of the GNU General Public License
 # along with snowboard.  If not, see <http://www.gnu.org/licenses/>.
 
+# Defines a server connection configuration, does not handle the actual
+# connection, but provides settings such as name, port, and ssl options.
+
 '''
-Loads and executes an instance of Snowboard.
+Stores information on a server.
 
-See https://github.com/dwhagar/snowboard/ for more information.
+See https://github.com/dwhagar/snowboard/wiki/Class-Docs for documentation.
 '''
 
-import sys
-import snowboard
-
-sys.exit(snowboard.main(sys.argv[1:]))
+class Server:
+    def __init__(self, host, port, ssl):
+        self.host = host
+        self.port = port
+        self.ssl = ssl

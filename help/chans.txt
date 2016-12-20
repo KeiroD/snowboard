@@ -1,0 +1,7 @@
+Channels associated with #BlazingUmbra for different settings and places.
+::B::#BlazingUmbra::B:: - Main in character room.
+::B::#BlazingUmbra-OOC::B:: - Out of character chat room.
+::B::#BlazingUmbra-Derelict::B:: - RP That takes place on or around the Derelict.
+::B::#BlazingUmbra-Random::B:: - A catch-all for anything that doesn't really fit with anything else.
+::B::#BlazingUmbra-Nebula::B:: - The Phoenix Nebula, a place for discussing the creation of new characters and story ideas.
+To ask about gaining a bot-driven channel, contact the owner HoloCyclops.

@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # This file is part of snowboard.
 # 
 # snowboard is free software: you can redistribute it and/or modify
@@ -16,12 +14,18 @@
 # along with snowboard.  If not, see <http://www.gnu.org/licenses/>.
 
 '''
-Loads and executes an instance of Snowboard.
+Useful functions for dealing with passwords.
 
-See https://github.com/dwhagar/snowboard/ for more information.
+See https://github.com/dwhagar/snowboard/wiki/Class-Docs for documentation.
 '''
 
-import sys
-import snowboard
+import hashlib
+import base64
 
-sys.exit(snowboard.main(sys.argv[1:]))
+def passwordHash(password):
+    '''Creates a base64 encoded hash from a password.'''
+    sha512 = hashlib.sha256()
+    sha512.update(password.encode('utf-8'))
+    data = sha512.digest()
+    result = base64.b64encode(data).decode('utf-8')
+    return result
